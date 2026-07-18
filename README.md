@@ -1,7 +1,5 @@
 # JDBC-Management-Systems
 A collection of Java JDBC CRUD-based management system projects demonstrating database connectivity, SQL operations, transactions, validation, and layered architecture using MySQL.
-# JDBC Management Systems
-This repository contains multiple Java JDBC projects developed using Core Java and MySQL. These projects demonstrate CRUD operations, database connectivity, validation, foreign key relationships, transactions, joins, and layered architecture.
 ## Projects Included
 ### 1. Hospital Management System
 **Features**
