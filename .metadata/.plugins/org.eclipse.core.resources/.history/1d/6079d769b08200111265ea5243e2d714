@@ -1,0 +1,90 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import dbConnection.DBConnection;
+import model.Leave_Balance;
+
+public class LeaveBalanceDao {
+	
+	// Create Leave Balance for New Employee
+    public boolean createLeaveBalance(int employeeId) {
+
+        String sql = "INSERT INTO leave_balance(employee_id,total_leave,used_leave,remaining_leave) VALUES(?,?,?,?)";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, employeeId);
+            ps.setInt(2, 20); // Default Total Leave
+            ps.setInt(3, 0);  // Used Leave
+            ps.setInt(4, 20); // Remaining Leave
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // View Leave Balance
+    public LeaveBalanceDao getLeaveBalance(int employeeId) {
+
+        String sql = "SELECT * FROM leave_balance WHERE employee_id=?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, employeeId);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+
+                Leave_Balance lb = new Leave_Balance();
+
+                lb.setBalanceId(rs.getInt("balance_id"));
+                lb.setEmployeeId(rs.getInt("employee_id"));
+                lb.setTotalLeave(rs.getInt("total_leave"));
+                lb.setUsedLeave(rs.getInt("used_leave"));
+                lb.setRemainingLeave(rs.getInt("remaining_leave"));
+
+                return lb;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    // Update Leave Balance
+    public boolean updateLeaveBalance(int employeeId,
+                                      int usedLeave,
+                                      int remainingLeave) {
+
+        String sql = "UPDATE leave_balance SET used_leave=?, remaining_leave=? WHERE employee_id=?";
+
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, usedLeave);
+            ps.setInt(2, remainingLeave);
+            ps.setInt(3, employeeId);
+
+            return ps.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+}

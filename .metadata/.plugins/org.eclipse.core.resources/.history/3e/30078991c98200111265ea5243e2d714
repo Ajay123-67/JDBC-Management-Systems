@@ -1,0 +1,302 @@
+package main;
+
+import model.Customer;
+import model.Vehicle;
+import model.ServiceRecord;
+import service.CustomerService;
+import service.VehicleService;
+import service.ServiceRecordService;
+
+import java.sql.Date;
+import java.util.Scanner;
+
+public class VehicleServiceManagement {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        CustomerService customerService = new CustomerService();
+        VehicleService vehicleService = new VehicleService();
+        ServiceRecordService serviceService = new ServiceRecordService();
+
+        int choice;
+
+        do {
+
+            System.out.println("\n========== Vehicle Service Center ==========");
+            System.out.println("1. Add Customer");
+            System.out.println("2. View Customers");
+            System.out.println("3. Search Customer");
+            System.out.println("4. Update Customer");
+            System.out.println("5. Delete Customer");
+
+            System.out.println("6. Register Vehicle");
+            System.out.println("7. View Vehicles");
+            System.out.println("8. Search Vehicle");
+            System.out.println("9. Update Vehicle");
+            System.out.println("10. Delete Vehicle");
+
+            System.out.println("11. Book Service");
+            System.out.println("12. View Services");
+            System.out.println("13. Update Service");
+            System.out.println("14. Delete Service");
+
+            System.out.println("15. View Service History");
+            System.out.println("16. Exit");
+
+            System.out.print("\nEnter Choice : ");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+
+                // ---------------- CUSTOMER ----------------
+
+                case 1:
+
+                    System.out.print("Customer Name : ");
+                    String name = sc.nextLine();
+
+                    System.out.print("Phone : ");
+                    String phone = sc.nextLine();
+
+                    System.out.print("Email : ");
+                    String email = sc.nextLine();
+
+                    System.out.print("Address : ");
+                    String address = sc.nextLine();
+
+                    Customer customer = new Customer(name, phone, email, address);
+
+                    customerService.addCustomer(customer);
+
+                    break;
+
+                case 2:
+
+                    customerService.viewCustomers();
+
+                    break;
+
+                case 3:
+
+                    System.out.print("Enter Customer ID : ");
+                    int customerId = sc.nextInt();
+
+                    customerService.searchCustomer(customerId);
+
+                    break;
+
+                case 4:
+
+                    System.out.print("Customer ID : ");
+                    int updateCustomerId = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Customer Name : ");
+                    String updateName = sc.nextLine();
+
+                    System.out.print("Phone : ");
+                    String updatePhone = sc.nextLine();
+
+                    System.out.print("Email : ");
+                    String updateEmail = sc.nextLine();
+
+                    System.out.print("Address : ");
+                    String updateAddress = sc.nextLine();
+
+                    Customer updateCustomer =
+                            new Customer(updateCustomerId, updateName,
+                                    updatePhone, updateEmail, updateAddress);
+
+                    customerService.updateCustomer(updateCustomer);
+
+                    break;
+
+                case 5:
+
+                    System.out.print("Customer ID : ");
+                    int deleteCustomerId = sc.nextInt();
+
+                    customerService.deleteCustomer(deleteCustomerId);
+
+                    break;
+
+                // ---------------- VEHICLE ----------------
+
+                case 6:
+
+                    System.out.print("Customer ID : ");
+                    int custId = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Vehicle Number : ");
+                    String number = sc.nextLine().toUpperCase();
+
+                    System.out.print("Brand : ");
+                    String brand = sc.nextLine();
+
+                    System.out.print("Model : ");
+                    String model = sc.nextLine();
+
+                    System.out.print("Manufacture Year : ");
+                    int year = sc.nextInt();
+
+                    Vehicle vehicle =
+                            new Vehicle(custId, number, brand, model, year);
+
+                    vehicleService.addVehicle(vehicle);
+
+                    break;
+
+                case 7:
+
+                    vehicleService.viewVehicles();
+
+                    break;
+
+                case 8:
+
+                    System.out.print("Vehicle Number : ");
+                    String vehicleNumber = sc.nextLine().toUpperCase();
+
+                    vehicleService.searchVehicle(vehicleNumber);
+
+                    break;
+
+                case 9:
+
+                    System.out.print("Vehicle ID : ");
+                    int vehicleId = sc.nextInt();
+
+                    System.out.print("Customer ID : ");
+                    int Customer = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Vehicle Number : ");
+                    String vNumber = sc.nextLine().toUpperCase();
+
+                    System.out.print("Brand : ");
+                    String vBrand = sc.nextLine();
+
+                    System.out.print("Model : ");
+                    String vModel = sc.nextLine();
+
+                    System.out.print("Manufacture Year : ");
+                    int vYear = sc.nextInt();
+
+                    Vehicle updateVehicle =
+                            new Vehicle(vehicleId, customer,
+                                    vNumber, vBrand, vModel, vYear);
+
+                    vehicleService.updateVehicle(updateVehicle);
+
+                    break;
+
+                case 10:
+
+                    System.out.print("Vehicle ID : ");
+                    int deleteVehicleId = sc.nextInt();
+
+                    vehicleService.deleteVehicle(deleteVehicleId);
+
+                    break;
+
+                // ---------------- SERVICE ----------------
+
+                case 11:
+
+                    System.out.print("Vehicle ID : ");
+                    int serviceVehicleId = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Service Date (yyyy-mm-dd) : ");
+                    Date date = Date.valueOf(sc.nextLine());
+
+                    System.out.print("Service Type : ");
+                    String serviceType = sc.nextLine();
+
+                    System.out.print("Cost : ");
+                    double cost = sc.nextDouble();
+                    sc.nextLine();
+
+                    System.out.print("Status : ");
+                    String status = sc.nextLine();
+
+                    ServiceRecord service =
+                            new ServiceRecord(serviceVehicleId,
+                                    date, serviceType, cost, status);
+
+                    serviceService.addService(service);
+
+                    break;
+
+                case 12:
+
+                    serviceService.viewServices();
+
+                    break;
+
+                case 13:
+
+                    System.out.print("Service ID : ");
+                    int serviceId = sc.nextInt();
+
+                    System.out.print("Vehicle ID : ");
+                    int vehicleID = sc.nextInt();
+                    sc.nextLine();
+
+                    System.out.print("Service Date (yyyy-mm-dd) : ");
+                    Date serviceDate = Date.valueOf(sc.nextLine());
+
+                    System.out.print("Service Type : ");
+                    String type = sc.nextLine();
+
+                    System.out.print("Cost : ");
+                    double serviceCost = sc.nextDouble();
+                    sc.nextLine();
+
+                    System.out.print("Status : ");
+                    String serviceStatus = sc.nextLine();
+
+                    ServiceRecord updateService =
+                            new ServiceRecord(serviceId, vehicleID,
+                                    serviceDate, type,
+                                    serviceCost, serviceStatus);
+
+                    serviceService.updateService(updateService);
+
+                    break;
+
+                case 14:
+
+                    System.out.print("Service ID : ");
+                    int deleteServiceId = sc.nextInt();
+
+                    serviceService.deleteService(deleteServiceId);
+
+                    break;
+
+                case 15:
+
+                    serviceService.viewServiceHistory();
+
+                    break;
+
+                case 16:
+
+                    System.out.println("Thank You...!");
+                    break;
+
+                default:
+
+                    System.out.println("Invalid Choice.");
+
+            }
+
+        } while (choice != 16);
+
+        sc.close();
+    }
+}

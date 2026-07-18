@@ -1,0 +1,210 @@
+package main;
+
+import java.sql.Date;
+import java.util.Scanner;
+
+import model.Employee;
+import model.Leave_Requests;
+import service.EmployeeService;
+import service.LeaveService;
+
+public class Main {
+
+	public static void main(String[] args) {
+		 Scanner sc = new Scanner(System.in);
+
+	        EmployeeService employeeService = new EmployeeService();
+	        LeaveService leaveService = new LeaveService();
+
+	        int choice;
+
+	        do {
+
+	            System.out.println("\n========================================");
+	            System.out.println(" EMPLOYEE LEAVE MANAGEMENT SYSTEM");
+	            System.out.println("========================================");
+	            System.out.println("1. Register Employee");
+	            System.out.println("2. View All Employees");
+	            System.out.println("3. Search Employee");
+	            System.out.println("4. Update Employee");
+	            System.out.println("5. Delete Employee");
+	            System.out.println("6. Apply Leave");
+	            System.out.println("7. View Leave Requests");
+	            System.out.println("8. Approve Leave");
+	            System.out.println("9. Reject Leave");
+	            System.out.println("10. View Leave Balance");
+	            System.out.println("11. Exit");
+	            System.out.print("Enter your choice : ");
+
+	            choice = sc.nextInt();
+	            sc.nextLine();
+
+	            switch (choice) {
+
+	            case 1:
+
+	                Employee emp = new Employee();
+
+	                System.out.print("Enter Name : ");
+	                emp.setEmployeeName(sc.nextLine());
+
+	                System.out.print("Enter Email : ");
+	                emp.setEmail(sc.nextLine());
+
+	                System.out.print("Enter Department : ");
+	                emp.setDepartment(sc.nextLine());
+
+	                System.out.print("Enter Joining Date (yyyy-mm-dd): ");
+	                emp.setJoiningDate(Date.valueOf(sc.nextLine()));
+
+	                if (employeeService.registerEmployee(emp))
+	                    System.out.println("Employee Registered Successfully.");
+	                else
+	                    System.out.println("Registration Failed.");
+
+	                break;
+
+	            case 2:
+
+	                employeeService.viewEmployees();
+
+	                break;
+
+	            case 3:
+
+	                System.out.print("Enter Employee ID : ");
+	                int searchId = sc.nextInt();
+
+	                Employee e = employeeService.searchEmployee(searchId);
+
+	                if (e != null)
+	                    System.out.println(e);
+	                else
+	                    System.out.println("Employee Not Found.");
+
+	                break;
+
+	            case 4:
+
+	                Employee update = new Employee();
+
+	                System.out.print("Enter Employee ID : ");
+	                update.setEmployeeId(sc.nextInt());
+	                sc.nextLine();
+
+	                System.out.print("Enter Name : ");
+	                update.setEmployeeName(sc.nextLine());
+
+	                System.out.print("Enter Email : ");
+	                update.setEmail(sc.nextLine());
+
+	                System.out.print("Enter Department : ");
+	                update.setDepartment(sc.nextLine());
+
+	                System.out.print("Enter Joining Date (yyyy-mm-dd): ");
+	                update.setJoiningDate(Date.valueOf(sc.nextLine()));
+
+	                if (employeeService.updateEmployee(update))
+	                    System.out.println("Employee Updated Successfully.");
+	                else
+	                    System.out.println("Update Failed.");
+
+	                break;
+
+	            case 5:
+
+	                System.out.print("Enter Employee ID : ");
+	                int deleteId = sc.nextInt();
+
+	                if (employeeService.deleteEmployee(deleteId))
+	                    System.out.println("Employee Deleted Successfully.");
+	                else
+	                    System.out.println("Delete Failed.");
+
+	                break;
+
+	            case 6:
+
+	                Leave_Requests leave = new Leave_Requests();
+
+	                System.out.print("Enter Employee ID : ");
+	                leave.setEmployeeId(sc.nextInt());
+	                sc.nextLine();
+
+	                System.out.print("Enter Leave Type : ");
+	                leave.setLeaveType(sc.nextLine());
+
+	                System.out.print("Enter From Date (yyyy-mm-dd): ");
+	                leave.setFromDate(Date.valueOf(sc.nextLine()));
+
+	                System.out.print("Enter To Date (yyyy-mm-dd): ");
+	                leave.setToDate(Date.valueOf(sc.nextLine()));
+
+	                System.out.print("Enter Reason : ");
+	                leave.setReason(sc.nextLine());
+
+	                if (leaveService.applyLeave(leave))
+	                    System.out.println("Leave Applied Successfully.");
+	                else
+	                    System.out.println("Leave Application Failed.");
+
+	                break;
+
+	            case 7:
+
+	                leaveService.viewLeaveRequests();
+
+	                break;
+
+	            case 8:
+
+	                System.out.print("Enter Leave ID : ");
+	                int approveId = sc.nextInt();
+
+	                if (leaveService.approveLeave(approveId))
+	                    System.out.println("Leave Approved.");
+	                else
+	                    System.out.println("Approval Failed.");
+
+	                break;
+
+	            case 9:
+
+	                System.out.print("Enter Leave ID : ");
+	                int rejectId = sc.nextInt();
+
+	                if (leaveService.rejectLeave(rejectId))
+	                    System.out.println("Leave Rejected.");
+	                else
+	                    System.out.println("Rejection Failed.");
+
+	                break;
+
+	            case 10:
+
+	                System.out.print("Enter Employee ID : ");
+	                int employeeId = sc.nextInt();
+
+	                leaveService.viewLeaveBalance(employeeId);
+
+	                break;
+
+	            case 11:
+
+	                System.out.println("Thank You!");
+
+	                break;
+
+	            default:
+
+	                System.out.println("Invalid Choice.");
+
+	            }
+
+	        } while (choice != 11);
+
+	        sc.close();
+	    }
+
+	}
+
